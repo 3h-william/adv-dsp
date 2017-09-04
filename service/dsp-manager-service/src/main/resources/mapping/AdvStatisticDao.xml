@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.AdvStatisticDao">
+
+    <insert id="saveObjects" parameterType="java.util.List">
+        <![CDATA[
+            replace into adv_statistic(app_id,channel_id,click_nums,distinct_click_nums,activation_nums,distinct_activation_nums,ds) values
+       ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.app_id},#{item.channel_id},#{item.click_nums},#{item.distinct_click_nums},#{item.activation_nums},#{item.distinct_activation_nums},#{item.ds})
+        </foreach>
+    </insert>
+
+
+    <select id="searchStatistic" resultType="com.advdsp.service.manager.db.dto.AdvStatisticDto">
+        <![CDATA[
+                select stat.*,app.app_name,channel.channel_name from adv_statistic stat
+                  left join app_config app on app.app_id = stat.app_id
+                  left join channel_config channel on channel.channel_id = stat.channel_id
+                  where  (#{0} or stat.app_id = #{1}) and (#{2} or stat.channel_id = #{3})
+                  and ds between #{4} and #{5} and app.app_id is not null order by ds , stat.app_id , channel.channel_id desc
+        ]]>
+    </select>
+
+</mapper>

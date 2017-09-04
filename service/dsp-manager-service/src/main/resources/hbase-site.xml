@@ -1,0 +1,24 @@
+<configuration>
+
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>localhost</value>
+        <!--<value>sn.comp.hadoop.kingnet.com</value>-->
+    </property>
+
+    <property>
+        <name>namespace.name</name>
+        <value>dsp</value>
+    </property>
+
+    <property>
+        <name>hbase.user.name</name>
+        <value>dspdev</value>
+    </property>
+
+    <property>
+        <name>hbase.rpc.timeout</name>
+        <value>10000</value>
+    </property>
+
+</configuration>

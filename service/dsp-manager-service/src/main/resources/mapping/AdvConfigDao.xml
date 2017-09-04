@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.AdvConfigDao">
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.AdvConfigDto">
+        <![CDATA[
+                select adv.adv_id ,adv.app_id, adv.channel_id,adv.adv_describe,app.app_name, channel.channel_name ,customer.customer_name,
+                    system.callback_url_base as system_callback ,
+                    app.callback_url_base as app_callback , adv.last_edit_user_id , adv.last_edit_date, user.user_name as last_edit_user_name
+                    from adv_config adv
+                    left join app_config app on adv.app_id= app.app_id
+                    left join channel_config channel on adv.channel_id=channel.channel_id
+                    left join system_config system on app.system_id = system.system_id
+                    left join customer_config customer on customer.customer_id = app.customer_id
+                    left join user_config user on user.user_id = adv.last_edit_user_id
+        ]]>
+    </select>
+
+    <select id="getObjectByID" resultType="com.advdsp.service.manager.db.dto.AdvConfigDto">
+        <![CDATA[
+                select adv.adv_id ,adv.app_id, adv.channel_id,adv.adv_describe,app.app_name, channel.channel_name ,customer.customer_name,
+                    system.callback_url_base as system_callback ,
+                    app.callback_url_base as app_callback , adv.last_edit_user_id , adv.last_edit_date, user.user_name as last_edit_user_name
+                    from adv_config adv
+                    left join app_config app on adv.app_id= app.app_id
+                    left join channel_config channel on adv.channel_id=channel.channel_id
+                    left join system_config system on app.system_id = system.system_id
+                    left join customer_config customer on customer.customer_id = app.customer_id
+                    left join user_config user on user.user_id = adv.last_edit_user_id
+                    where adv_id=#{adv_id}
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.AdvConfigDto" keyProperty="adv_id" useGeneratedKeys="true">
+        <![CDATA[
+            insert into adv_config(app_id,channel_id,adv_describe,last_edit_date,last_edit_user_id)
+             values(#{app_id},#{channel_id},#{adv_describe},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update adv_config set app_id = #{app_id}, channel_id = #{channel_id},adv_describe = #{channel_id}, adv_describe = #{adv_describe},
+            last_edit_date=#{last_edit_date}, last_edit_user_id = #{last_edit_user_id}
+             where adv_id=#{adv_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from adv_config where adv_id=#{adv_id}
+        ]]>
+    </delete>
+
+</mapper>

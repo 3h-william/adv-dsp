@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.ChannelConfigDao">
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.ChannelConfigDto">
+        <![CDATA[
+              select channel.*,user.user_name as last_edit_user_name from channel_config channel left join user_config user on channel.last_edit_user_id = user.user_id
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.ChannelConfigDto" keyProperty="channel_id" useGeneratedKeys="true">
+        <![CDATA[
+            insert into channel_config(channel_name,channel_describe,last_edit_date,last_edit_user_id)
+             values(#{channel_name},#{channel_describe},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update channel_config set channel_name = #{channel_name}, channel_describe = #{channel_describe}, last_edit_date = #{last_edit_date},
+            last_edit_user_id = #{last_edit_user_id}
+             where channel_id=#{channel_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from channel_config where channel_id=#{channel_id}
+        ]]>
+    </delete>
+
+</mapper>

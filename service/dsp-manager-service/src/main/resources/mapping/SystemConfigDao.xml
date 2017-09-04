@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.SystemConfigDao">
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.SystemConfigDto">
+        <![CDATA[
+              select system.*, user.user_name as last_edit_user_name from system_config system
+               left join user_config user on system.last_edit_user_id=user.user_id
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.SystemConfigDto" keyProperty="system_id" useGeneratedKeys="true">
+        <![CDATA[
+            insert into system_config(system_name,callback_url_base,last_edit_date,last_edit_user_id)
+             values(#{system_name},#{callback_url_base},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update system_config set system_name = #{system_name}, callback_url_base = #{callback_url_base}, last_edit_date = #{last_edit_date},
+            last_edit_user_id = #{last_edit_user_id}
+             where system_id=#{system_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from system_config where system_id=#{system_id}
+        ]]>
+    </delete>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.AdxConfigManagerDao">
+
+    <select id="searchAdxConfigMapping" resultType="com.advdsp.service.manager.db.dto.AdxConfigDto">
+        <![CDATA[
+    select adx.adx_id ,adx.channel_id,adx.copy_app_id,adx.apply_app_id, adx.amount, channel.channel_name, app_copy.app_name as copy_app_name,
+        app_apply.app_name as apply_app_name,adx.last_edit_date,user.user_name as last_edit_user_name ,adx.last_edit_user_id
+           from adx_config adx
+             left join channel_config channel on adx.channel_id=channel.channel_id
+             left join app_config app_copy on adx.copy_app_id = app_copy.app_id
+             left join app_config app_apply on adx.apply_app_id=app_apply.app_id
+             left join user_config user on adx.last_edit_user_id=user.user_id
+             where adx.channel_id = #{0} and adx.copy_app_id = #{1}
+        ]]>
+    </select>
+
+
+    <select id="searchAppConfigMapping" resultType="com.advdsp.service.manager.db.dto.AppChannelMappingDto">
+        <![CDATA[
+            select adv.app_id, adv.channel_id,app.app_name, channel.channel_name ,adx_group.count
+              from adv_config adv
+              left join app_config app on adv.app_id= app.app_id
+              left join channel_config channel on adv.channel_id=channel.channel_id
+              left join
+              (
+              select channel_id,copy_app_id , count(*) as count from adx_config adx group by channel_id , copy_app_id
+              ) adx_group
+              on adx_group.channel_id = adv.channel_id and adx_group.copy_app_id = adv.app_id
+              where  (#{0} or channel.channel_id = #{1}) and (#{2} or app.app_id =#{3} )
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.AdxConfigDto" keyProperty="adx_id" useGeneratedKeys="true">
+        <![CDATA[
+            insert into adx_config(channel_id,copy_app_id,apply_app_id,amount,last_edit_date,last_edit_user_id)
+            values(#{channel_id},#{copy_app_id},#{apply_app_id},#{amount},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update adx_config set channel_id = #{channel_id}, copy_app_id = #{copy_app_id}, apply_app_id = #{apply_app_id},
+            amount = #{amount}, last_edit_date = #{last_edit_date}, last_edit_user_id = #{last_edit_user_id}
+             where adx_id=#{adx_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from adx_config where adx_id=#{adx_id}
+        ]]>
+    </delete>
+
+
+    <delete id="deleteByChannelIdAndCopyAppId">
+        <![CDATA[
+            delete from adx_config where channel_id=#{0} and copy_app_id=#{1}
+        ]]>
+    </delete>
+
+</mapper>

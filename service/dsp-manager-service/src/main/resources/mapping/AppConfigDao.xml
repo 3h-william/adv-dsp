@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.AppConfigDao">
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.AppConfigDto">
+        <![CDATA[
+           select app.*,customer.customer_name, system.system_name, user.user_name as last_edit_user_name from app_config app
+            left join customer_config customer on customer.customer_id = app.customer_id
+            left join system_config system on system.system_id = app.system_id
+            left join user_config user on app.last_edit_user_id = user.user_id
+        ]]>
+    </select>
+
+    <select id="getNoAdxConfig" resultType="com.advdsp.service.manager.db.dto.AppConfigDto">
+        <![CDATA[
+            select app.*,user.user_name as last_edit_user_name from app_config app
+               left join user_config user on app.last_edit_user_id = user.user_id
+               where app.app_id not in (select apply_app_id from adx_config where channel_id = #{0})
+                and app.app_id != #{1}
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.AppConfigDto">
+        <![CDATA[
+            insert into app_config(app_id,customer_id,callback_url_base,system_id,app_name,app_describe,last_edit_date,last_edit_user_id)
+             values(#{app_id},#{customer_id},#{callback_url_base},#{system_id},#{app_name},#{app_describe},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update app_config set app_id = #{app_id}, customer_id = #{customer_id}, callback_url_base = #{callback_url_base},system_id = #{system_id},
+            app_name = #{app_name},app_describe = #{app_describe},last_edit_date = #{last_edit_date},last_edit_user_id = #{last_edit_user_id}
+             where app_id=#{app_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from app_config where app_id=#{app_id}
+        ]]>
+    </delete>
+
+</mapper>

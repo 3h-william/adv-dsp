@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <mappers>
+        <mapper resource="mapping/AppConfigDao.xml"/>
+        <mapper resource="mapping/ChannelConfigDao.xml"/>
+        <mapper resource="mapping/AdxConfigManagerDao.xml"/>
+        <mapper resource="mapping/CustomerConfigDao.xml"/>
+        <mapper resource="mapping/SystemConfigDao.xml"/>
+        <mapper resource="mapping/AdvConfigDao.xml"/>
+        <mapper resource="mapping/AdvStatisticDao.xml"/>
+        <mapper resource="mapping/TokenDao.xml"/>
+        <mapper resource="mapping/UserDao.xml"/>
+    </mappers>
+</configuration>

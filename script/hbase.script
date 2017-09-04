@@ -1,0 +1,7 @@
+create_namespace 'dsp'
+create 'dsp:action_data', { NAME => 'base_info', VERSIONS=>1 }
+create 'dsp:action_data', { NAME => 'base_info', COMPRESSION => 'SNAPPY', VERSIONS=>1 }
+
+
+create 'dsp:counter', { NAME => 'base_info', COMPRESSION => 'SNAPPY', VERSIONS=>1 }
+create 'dsp:counter', { NAME => 'base_info', VERSIONS=>1 }

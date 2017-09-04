@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.CustomerConfigDao">
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.CustomerConfigDto">
+        <![CDATA[
+              select customer.*,user.user_name as last_edit_user_name from customer_config customer
+               left join user_config user on customer.last_edit_user_id=user.user_id
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.CustomerConfigDto" keyProperty="customer_id" useGeneratedKeys="true">
+        <![CDATA[
+            insert into customer_config(customer_name,customer_describe,last_edit_date,last_edit_user_id)
+             values(#{customer_name},#{customer_describe},#{last_edit_date},#{last_edit_user_id})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+            update customer_config set customer_name = #{customer_name}, customer_describe = #{customer_describe}, last_edit_date = #{last_edit_date},
+            last_edit_user_id = #{last_edit_user_id}
+             where customer_id=#{customer_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from customer_config where customer_id=#{customer_id}
+        ]]>
+    </delete>
+
+</mapper>

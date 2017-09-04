@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.UserDao">
+
+
+    <select id="getAll" resultType="com.advdsp.service.manager.db.dto.UserDto">
+        <![CDATA[
+                select * from user_config
+        ]]>
+    </select>
+
+
+    <select id="getObjectByID" resultType="com.advdsp.service.manager.db.dto.UserDto">
+        <![CDATA[
+              select * from user_config where user_id = #{0}
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.UserDto">
+        <![CDATA[
+            insert into user_config(user_id,user_name,password,approve,is_administrator) values(#{user_id},#{user_name},#{password},#{approve},${is_administrator})
+        ]]>
+    </insert>
+
+    <update id="updateObjectById">
+        <![CDATA[
+           update user_config set user_name = #{user_name}, password = #{password}, approve = #{approve} ,is_administrator =#{is_administrator}
+             where user_id=#{user_id}
+        ]]>
+    </update>
+
+    <delete id="deleteById">
+        <![CDATA[
+            delete from user_config where user_id=#{user_id}
+        ]]>
+    </delete>
+
+</mapper>

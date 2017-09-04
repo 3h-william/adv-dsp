@@ -1,0 +1,2 @@
+curl 'localhost:8310/dsp?type=ClickSync&idfa=idfa-test-123456766ee6&ip=localhost&callback=http%3A%2F%2Flocalhost%3A9000%2Fdsp%3Fa%3Da1%26b%3Db2&adid=adidtest1&channel=channel1&appid=100001'
+curl 'http://localhost:8310/dsp?type=CallBack&appid=100001&channel=channel1&adid=adidtest1&idfa=idfa-test-123456766ee6&ip=localhost&click_timestamp=1499588899947'

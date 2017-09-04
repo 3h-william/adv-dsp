@@ -1,0 +1,1 @@
+clean package -DskipTests=true

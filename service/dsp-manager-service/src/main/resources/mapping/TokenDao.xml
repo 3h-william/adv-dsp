@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.advdsp.service.manager.db.dao.TokenDao">
+
+    <select id="getObjectByID" resultType="com.advdsp.service.manager.db.dto.TokenDto">
+        <![CDATA[
+              select * from token_data where user_id = #{0}
+        ]]>
+    </select>
+
+    <select id="getObjectByToken" resultType="com.advdsp.service.manager.db.dto.TokenDto">
+        <![CDATA[
+              select * from token_data where token = #{0}
+        ]]>
+    </select>
+
+    <insert id="saveObject" parameterType="com.advdsp.service.manager.db.dto.TokenDto">
+        <![CDATA[
+            insert into token_data(user_id,token) values(#{user_id},#{token})
+        ]]>
+    </insert>
+
+
+    <delete id="deleteTokenByUserID">
+        <![CDATA[
+            delete from token_data where user_id=#{0}
+        ]]>
+    </delete>
+
+</mapper>
